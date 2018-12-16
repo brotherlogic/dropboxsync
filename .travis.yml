@@ -17,5 +17,5 @@ before_install:
   fi
 
 script:
-- fgt golint $(find . | grep .go$ | grep -v dataviewer.pb.go)
-- $HOME/gopath/bin/goveralls -service=travis-ci -ignore=dataviewer.go,main.go -package github.com/brotherlogic/dataviewer
+- fgt golint $(find . | grep .go$ | grep -v dropboxsync.pb.go)
+- $HOME/gopath/bin/goveralls -service=travis-ci -ignore=dropboxsync.go,main.go -package github.com/brotherlogic/dropboxsync
