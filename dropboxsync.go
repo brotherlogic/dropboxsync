@@ -7,21 +7,46 @@ import (
 	"log"
 
 	"github.com/brotherlogic/goserver"
+	"github.com/brotherlogic/keystore/client"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
+	pb "github.com/brotherlogic/dropboxsync/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
+)
+
+const (
+	// KEY - where the wants are stored
+	KEY = "/github.com/brotherlogic/dropboxsync/config"
 )
 
 //Server main server type
 type Server struct {
 	*goserver.GoServer
+	config *pb.Config
+}
+
+func (s *Server) save(ctx context.Context) {
+	s.KSclient.Save(ctx, KEY, s.config)
+}
+
+func (s *Server) load(ctx context.Context) error {
+	config := &pb.Config{}
+	data, _, err := s.KSclient.Read(ctx, KEY, config)
+
+	if err != nil {
+		return err
+	}
+
+	s.config = data.(*pb.Config)
+	return nil
 }
 
 // Init builds the server
 func Init() *Server {
 	s := &Server{
 		&goserver.GoServer{},
+		&pb.Config{},
 	}
 	return s
 }
@@ -38,12 +63,20 @@ func (s *Server) ReportHealth() bool {
 
 // Mote promotes/demotes this server
 func (s *Server) Mote(ctx context.Context, master bool) error {
+	if master {
+		err := s.load(ctx)
+		return err
+	}
+
 	return nil
 }
 
 // GetState gets the state of the server
 func (s *Server) GetState() []*pbg.State {
-	return []*pbg.State{}
+	return []*pbg.State{
+		&pbg.State{Key: "core_key", Text: s.config.CoreKey},
+		&pbg.State{Key: "num_sync_configs", Value: int64(len(s.config.SyncConfigs))},
+	}
 }
 
 func main() {
@@ -56,6 +89,7 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 	server := Init()
+	server.GoServer.KSclient = *keystoreclient.GetClient(server.GetIP)
 	server.PrepServer()
 	server.Register = server
 	server.RegisterServer("dropboxsync", false)
