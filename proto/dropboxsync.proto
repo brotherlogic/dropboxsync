@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package dropboxsync;
+
+message SyncConfig {
+  string key = 1;
+  string origin = 2;
+  string destination = 3;
+}
+
+message Config {
+  string core_key = 1;
+  repeated SyncConfig sync_configs = 2;
+}
+
+message UpdateConfigRequest{
+  string new_core_key = 1;
+}
+
+message UpdateConfigResponse{}
+
+message AddSyncConfigRequest{
+  SyncConfig to_add = 1;
+}
+
+message AddSyncConfigResponse{}
+
+service DropboxSyncService {
+  rpc UpdateConfig(UpdateConfigRequest) returns (UpdateConfigResponse) {};
+  rpc AddSyncConfig(AddSyncConfigRequest) returns (AddSyncConfigResponse) {};
+}
