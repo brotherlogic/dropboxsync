@@ -1,4 +1,4 @@
 dropboxsync
 *~
-cli/cli
+dropboxsync_cli/dropboxsync_cli
 .test
