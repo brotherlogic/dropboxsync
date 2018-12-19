@@ -11,6 +11,7 @@ import (
 
 func InitServer() *Server {
 	s := Init()
+	s.SkipLog = true
 	s.GoServer.KSclient = *keystoreclient.GetTestClient(".test")
 	return s
 }
