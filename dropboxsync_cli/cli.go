@@ -34,11 +34,6 @@ func main() {
 	defer cancel()
 
 	switch os.Args[1] {
-	case "core":
-		_, err := client.UpdateConfig(ctx, &pb.UpdateConfigRequest{NewCoreKey: os.Args[2]})
-		if err != nil {
-			log.Fatalf("Error on core update: %v", err)
-		}
 	case "config":
 		_, err := client.AddSyncConfig(ctx, &pb.AddSyncConfigRequest{ToAdd: &pb.SyncConfig{Key: os.Args[2], Origin: os.Args[3], Destination: os.Args[4]}})
 		if err != nil {

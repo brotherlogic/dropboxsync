@@ -16,17 +16,6 @@ func InitServer() *Server {
 	return s
 }
 
-func TestAddCoreKey(t *testing.T) {
-	s := InitServer()
-	_, err := s.UpdateConfig(context.Background(), &pb.UpdateConfigRequest{NewCoreKey: "newkey"})
-	if err != nil {
-		t.Fatalf("Error on update: %v", err)
-	}
-	if s.config.CoreKey != "newkey" {
-		t.Errorf("Update did not take: %v", s.config)
-	}
-}
-
 func TestAddSyncKey(t *testing.T) {
 	s := InitServer()
 	_, err := s.AddSyncConfig(context.Background(), &pb.AddSyncConfigRequest{ToAdd: &pb.SyncConfig{Key: "newkey"}})

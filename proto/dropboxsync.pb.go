@@ -124,76 +124,6 @@ func (m *Config) GetSyncConfigs() []*SyncConfig {
 	return nil
 }
 
-type UpdateConfigRequest struct {
-	NewCoreKey           string   `protobuf:"bytes,1,opt,name=new_core_key,json=newCoreKey,proto3" json:"new_core_key,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UpdateConfigRequest) Reset()         { *m = UpdateConfigRequest{} }
-func (m *UpdateConfigRequest) String() string { return proto.CompactTextString(m) }
-func (*UpdateConfigRequest) ProtoMessage()    {}
-func (*UpdateConfigRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e581dd35db418eb0, []int{2}
-}
-
-func (m *UpdateConfigRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UpdateConfigRequest.Unmarshal(m, b)
-}
-func (m *UpdateConfigRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UpdateConfigRequest.Marshal(b, m, deterministic)
-}
-func (m *UpdateConfigRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateConfigRequest.Merge(m, src)
-}
-func (m *UpdateConfigRequest) XXX_Size() int {
-	return xxx_messageInfo_UpdateConfigRequest.Size(m)
-}
-func (m *UpdateConfigRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateConfigRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UpdateConfigRequest proto.InternalMessageInfo
-
-func (m *UpdateConfigRequest) GetNewCoreKey() string {
-	if m != nil {
-		return m.NewCoreKey
-	}
-	return ""
-}
-
-type UpdateConfigResponse struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UpdateConfigResponse) Reset()         { *m = UpdateConfigResponse{} }
-func (m *UpdateConfigResponse) String() string { return proto.CompactTextString(m) }
-func (*UpdateConfigResponse) ProtoMessage()    {}
-func (*UpdateConfigResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e581dd35db418eb0, []int{3}
-}
-
-func (m *UpdateConfigResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UpdateConfigResponse.Unmarshal(m, b)
-}
-func (m *UpdateConfigResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UpdateConfigResponse.Marshal(b, m, deterministic)
-}
-func (m *UpdateConfigResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateConfigResponse.Merge(m, src)
-}
-func (m *UpdateConfigResponse) XXX_Size() int {
-	return xxx_messageInfo_UpdateConfigResponse.Size(m)
-}
-func (m *UpdateConfigResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateConfigResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UpdateConfigResponse proto.InternalMessageInfo
-
 type AddSyncConfigRequest struct {
 	ToAdd                *SyncConfig `protobuf:"bytes,1,opt,name=to_add,json=toAdd,proto3" json:"to_add,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
@@ -205,7 +135,7 @@ func (m *AddSyncConfigRequest) Reset()         { *m = AddSyncConfigRequest{} }
 func (m *AddSyncConfigRequest) String() string { return proto.CompactTextString(m) }
 func (*AddSyncConfigRequest) ProtoMessage()    {}
 func (*AddSyncConfigRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e581dd35db418eb0, []int{4}
+	return fileDescriptor_e581dd35db418eb0, []int{2}
 }
 
 func (m *AddSyncConfigRequest) XXX_Unmarshal(b []byte) error {
@@ -243,7 +173,7 @@ func (m *AddSyncConfigResponse) Reset()         { *m = AddSyncConfigResponse{} }
 func (m *AddSyncConfigResponse) String() string { return proto.CompactTextString(m) }
 func (*AddSyncConfigResponse) ProtoMessage()    {}
 func (*AddSyncConfigResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e581dd35db418eb0, []int{5}
+	return fileDescriptor_e581dd35db418eb0, []int{3}
 }
 
 func (m *AddSyncConfigResponse) XXX_Unmarshal(b []byte) error {
@@ -267,8 +197,6 @@ var xxx_messageInfo_AddSyncConfigResponse proto.InternalMessageInfo
 func init() {
 	proto.RegisterType((*SyncConfig)(nil), "dropboxsync.SyncConfig")
 	proto.RegisterType((*Config)(nil), "dropboxsync.Config")
-	proto.RegisterType((*UpdateConfigRequest)(nil), "dropboxsync.UpdateConfigRequest")
-	proto.RegisterType((*UpdateConfigResponse)(nil), "dropboxsync.UpdateConfigResponse")
 	proto.RegisterType((*AddSyncConfigRequest)(nil), "dropboxsync.AddSyncConfigRequest")
 	proto.RegisterType((*AddSyncConfigResponse)(nil), "dropboxsync.AddSyncConfigResponse")
 }
@@ -276,26 +204,23 @@ func init() {
 func init() { proto.RegisterFile("dropboxsync.proto", fileDescriptor_e581dd35db418eb0) }
 
 var fileDescriptor_e581dd35db418eb0 = []byte{
-	// 300 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0x4f, 0x4f, 0xc2, 0x40,
-	0x10, 0xc5, 0x05, 0x62, 0xd5, 0x29, 0x26, 0x3a, 0x22, 0x54, 0x4e, 0x75, 0x4f, 0x9c, 0x7a, 0xc0,
-	0x83, 0x89, 0x37, 0x82, 0xf1, 0xe2, 0x0d, 0x42, 0xc2, 0xad, 0x29, 0xdd, 0x91, 0x6c, 0x4c, 0x76,
-	0x6a, 0x77, 0x15, 0xfb, 0x01, 0xfd, 0x5e, 0xa6, 0x7f, 0x94, 0x96, 0x90, 0xde, 0x76, 0xfe, 0xfd,
-	0xde, 0x7b, 0xc9, 0xc2, 0xb5, 0x4c, 0x39, 0xd9, 0xf0, 0xb7, 0xc9, 0x74, 0x1c, 0x24, 0x29, 0x5b,
-	0x46, 0xb7, 0xd6, 0x12, 0x6b, 0x80, 0x65, 0xa6, 0xe3, 0x39, 0xeb, 0x37, 0xb5, 0xc5, 0x2b, 0xe8,
-	0xbd, 0x53, 0xe6, 0x75, 0xfc, 0xce, 0xe4, 0x62, 0x91, 0x3f, 0x71, 0x08, 0x0e, 0xa7, 0x6a, 0xab,
-	0xb4, 0xd7, 0x2d, 0x9a, 0x55, 0x85, 0x3e, 0xb8, 0x92, 0x8c, 0x55, 0x3a, 0xb2, 0x8a, 0xb5, 0xd7,
-	0x2b, 0x86, 0xf5, 0x96, 0x08, 0xc1, 0xa9, 0xa8, 0x77, 0x70, 0x1e, 0x73, 0x4a, 0xe1, 0x1e, 0x7d,
-	0x96, 0xd7, 0xaf, 0x94, 0xe1, 0x13, 0xf4, 0x73, 0x1b, 0x61, 0x5c, 0x6c, 0x1a, 0xaf, 0xeb, 0xf7,
-	0x26, 0xee, 0x74, 0x14, 0xd4, 0x5d, 0xef, 0xfd, 0x2d, 0x5c, 0xf3, 0xff, 0x36, 0xe2, 0x11, 0x6e,
-	0x56, 0x89, 0x8c, 0x2c, 0x55, 0x43, 0xfa, 0xf8, 0x24, 0x63, 0xd1, 0x87, 0xbe, 0xa6, 0x5d, 0x78,
-	0xa0, 0x08, 0x9a, 0x76, 0xf3, 0x52, 0x54, 0x0c, 0x61, 0xd0, 0x3c, 0x34, 0x09, 0x6b, 0x43, 0xe2,
-	0x05, 0x06, 0x33, 0x29, 0x6b, 0x72, 0x15, 0x31, 0x00, 0xc7, 0x72, 0x18, 0x49, 0x59, 0xb0, 0x5a,
-	0xec, 0x9d, 0x5a, 0x9e, 0x49, 0x29, 0x46, 0x70, 0x7b, 0xc0, 0x29, 0x05, 0xa6, 0x3f, 0x1d, 0xc0,
-	0xe7, 0xf2, 0x34, 0x9f, 0x2e, 0x29, 0xfd, 0x52, 0x31, 0xe1, 0x0a, 0xfa, 0x75, 0x3f, 0xe8, 0x37,
-	0xf8, 0x47, 0x32, 0x8e, 0xef, 0x5b, 0x36, 0xaa, 0x30, 0x27, 0xb8, 0x86, 0xcb, 0x86, 0x0d, 0x6c,
-	0x5e, 0x1d, 0x8b, 0x3a, 0x16, 0x6d, 0x2b, 0x7f, 0xe4, 0x8d, 0x53, 0x7c, 0xa4, 0x87, 0xdf, 0x00,
-	0x00, 0x00, 0xff, 0xff, 0xb1, 0x67, 0xdc, 0x71, 0x5d, 0x02, 0x00, 0x00,
+	// 249 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x91, 0x31, 0x4f, 0xc3, 0x30,
+	0x10, 0x85, 0x69, 0x23, 0x02, 0x5c, 0x40, 0x82, 0x13, 0xd0, 0xc0, 0x14, 0x3c, 0x75, 0xca, 0x50,
+	0x36, 0xb6, 0x0a, 0xc4, 0xc2, 0xd6, 0x2e, 0xdd, 0xa2, 0xd6, 0x3e, 0x2a, 0x0b, 0xc9, 0x17, 0x7c,
+	0x06, 0x91, 0x7f, 0x8f, 0xe2, 0x56, 0x34, 0x45, 0x55, 0xb6, 0xbb, 0xf7, 0x9e, 0xbf, 0x7b, 0x92,
+	0xe1, 0xca, 0x78, 0xae, 0x57, 0xfc, 0x23, 0x8d, 0xd3, 0x65, 0xed, 0x39, 0x30, 0x66, 0x1d, 0x49,
+	0x2d, 0x00, 0xe6, 0x8d, 0xd3, 0xcf, 0xec, 0xde, 0xed, 0x1a, 0x2f, 0x21, 0xf9, 0xa0, 0x26, 0x1f,
+	0x14, 0x83, 0xf1, 0xd9, 0xac, 0x1d, 0xf1, 0x16, 0x52, 0xf6, 0x76, 0x6d, 0x5d, 0x3e, 0x8c, 0xe2,
+	0x76, 0xc3, 0x02, 0x32, 0x43, 0x12, 0xac, 0x5b, 0x06, 0xcb, 0x2e, 0x4f, 0xa2, 0xd9, 0x95, 0x54,
+	0x05, 0xe9, 0x96, 0x7a, 0x07, 0xa7, 0x9a, 0x3d, 0x55, 0x3b, 0xf4, 0x49, 0xbb, 0xbf, 0x51, 0x83,
+	0x4f, 0x70, 0xde, 0xd6, 0xa8, 0x74, 0x4c, 0x4a, 0x3e, 0x2c, 0x92, 0x71, 0x36, 0x19, 0x95, 0xdd,
+	0xd6, 0xbb, 0x7e, 0xb3, 0x4c, 0xfe, 0x66, 0x51, 0xaf, 0x70, 0x3d, 0x35, 0xa6, 0xe3, 0xd2, 0xe7,
+	0x17, 0x49, 0xc0, 0x12, 0xd2, 0xc0, 0xd5, 0xd2, 0x98, 0x78, 0xac, 0x87, 0x76, 0x1c, 0x78, 0x6a,
+	0x8c, 0x1a, 0xc1, 0xcd, 0x3f, 0x8e, 0xd4, 0xec, 0x84, 0x26, 0x0e, 0xf0, 0x65, 0xf3, 0xb2, 0x35,
+	0xe7, 0xe4, 0xbf, 0xad, 0x26, 0x5c, 0xc0, 0xc5, 0x5e, 0x1c, 0x1f, 0xf6, 0xf8, 0x87, 0x2a, 0xdd,
+	0xab, 0xbe, 0xc8, 0xe6, 0x9a, 0x3a, 0x5a, 0xa5, 0xf1, 0x7f, 0x1e, 0x7f, 0x03, 0x00, 0x00, 0xff,
+	0xff, 0x71, 0x97, 0xc4, 0x42, 0xb4, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -310,7 +235,6 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DropboxSyncServiceClient interface {
-	UpdateConfig(ctx context.Context, in *UpdateConfigRequest, opts ...grpc.CallOption) (*UpdateConfigResponse, error)
 	AddSyncConfig(ctx context.Context, in *AddSyncConfigRequest, opts ...grpc.CallOption) (*AddSyncConfigResponse, error)
 }
 
@@ -320,15 +244,6 @@ type dropboxSyncServiceClient struct {
 
 func NewDropboxSyncServiceClient(cc *grpc.ClientConn) DropboxSyncServiceClient {
 	return &dropboxSyncServiceClient{cc}
-}
-
-func (c *dropboxSyncServiceClient) UpdateConfig(ctx context.Context, in *UpdateConfigRequest, opts ...grpc.CallOption) (*UpdateConfigResponse, error) {
-	out := new(UpdateConfigResponse)
-	err := c.cc.Invoke(ctx, "/dropboxsync.DropboxSyncService/UpdateConfig", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *dropboxSyncServiceClient) AddSyncConfig(ctx context.Context, in *AddSyncConfigRequest, opts ...grpc.CallOption) (*AddSyncConfigResponse, error) {
@@ -342,30 +257,11 @@ func (c *dropboxSyncServiceClient) AddSyncConfig(ctx context.Context, in *AddSyn
 
 // DropboxSyncServiceServer is the server API for DropboxSyncService service.
 type DropboxSyncServiceServer interface {
-	UpdateConfig(context.Context, *UpdateConfigRequest) (*UpdateConfigResponse, error)
 	AddSyncConfig(context.Context, *AddSyncConfigRequest) (*AddSyncConfigResponse, error)
 }
 
 func RegisterDropboxSyncServiceServer(s *grpc.Server, srv DropboxSyncServiceServer) {
 	s.RegisterService(&_DropboxSyncService_serviceDesc, srv)
-}
-
-func _DropboxSyncService_UpdateConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateConfigRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DropboxSyncServiceServer).UpdateConfig(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/dropboxsync.DropboxSyncService/UpdateConfig",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropboxSyncServiceServer).UpdateConfig(ctx, req.(*UpdateConfigRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _DropboxSyncService_AddSyncConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -390,10 +286,6 @@ var _DropboxSyncService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "dropboxsync.DropboxSyncService",
 	HandlerType: (*DropboxSyncServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "UpdateConfig",
-			Handler:    _DropboxSyncService_UpdateConfig_Handler,
-		},
 		{
 			MethodName: "AddSyncConfig",
 			Handler:    _DropboxSyncService_AddSyncConfig_Handler,
