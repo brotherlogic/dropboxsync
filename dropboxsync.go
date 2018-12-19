@@ -80,8 +80,18 @@ func (s *Server) GetState() []*pbg.State {
 }
 
 func main() {
+	var local = flag.Bool("local", false, "Run local part")
+	var key = flag.String("key", "", "The key")
 	var quiet = flag.Bool("quiet", false, "Show all output")
 	flag.Parse()
+
+	if *local {
+		files := listFiles(*key, "/Apps/TuckerPictureFrame")
+		for _, f := range files {
+			fmt.Printf("%v\n", f)
+		}
+		return
+	}
 
 	//Turn off logging
 	if *quiet {
