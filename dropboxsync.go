@@ -74,7 +74,6 @@ func (s *Server) Mote(ctx context.Context, master bool) error {
 // GetState gets the state of the server
 func (s *Server) GetState() []*pbg.State {
 	return []*pbg.State{
-		&pbg.State{Key: "core_key", Text: s.config.CoreKey},
 		&pbg.State{Key: "num_sync_configs", Value: int64(len(s.config.SyncConfigs))},
 	}
 }
