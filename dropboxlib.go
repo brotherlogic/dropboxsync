@@ -5,6 +5,16 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 )
 
+func copyFile(key string, origin, dest string) {
+	config := dropbox.Config{
+		Token: key,
+	}
+
+	arg := files.NewRelocationArg(origin, dest)
+	dbx := files.New(config)
+	dbx.CopyV2(arg)
+}
+
 func listFiles(key string, path string) []string {
 	config := dropbox.Config{
 		Token: key,
