@@ -85,10 +85,8 @@ func main() {
 	flag.Parse()
 
 	if *local {
-		files := listFiles(*key, "/Apps/TuckerPictureFrame")
-		for _, f := range files {
-			fmt.Printf("%v\n", f)
-		}
+		copyFile(*key, "/at.txt", "/Krautrock/at.txt")
+
 		return
 	}
 
