@@ -5,17 +5,20 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 )
 
-func copyFile(key string, origin, dest string) {
+type dbProd struct{}
+
+func (d *dbProd) copyFile(key string, origin, dest string) error {
 	config := dropbox.Config{
 		Token: key,
 	}
 
 	arg := files.NewRelocationArg(origin, dest)
 	dbx := files.New(config)
-	dbx.CopyV2(arg)
+	_, err := dbx.CopyV2(arg)
+	return err
 }
 
-func listFiles(key string, path string) []string {
+func (d *dbProd) listFiles(key string, path string) ([]string, error) {
 	config := dropbox.Config{
 		Token: key,
 	}
@@ -23,7 +26,11 @@ func listFiles(key string, path string) []string {
 	arg := files.NewListFolderArg(path)
 
 	dbx := files.New(config)
-	resp, _ := dbx.ListFolder(arg)
+	resp, err := dbx.ListFolder(arg)
+
+	if err != nil {
+		return []string{}, err
+	}
 
 	fs := []string{}
 	for _, entry := range resp.Entries {
@@ -32,5 +39,5 @@ func listFiles(key string, path string) []string {
 		}
 	}
 
-	return fs
+	return fs, nil
 }
