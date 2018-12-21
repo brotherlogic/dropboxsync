@@ -2,11 +2,17 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"golang.org/x/net/context"
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
 )
+
+func stripFile(f string) string {
+	elems := strings.Split(f, "/")
+	return elems[len(elems)-1]
+}
 
 func diffFileList(master, new []string) []string {
 	newOnes := []string{}
@@ -14,7 +20,7 @@ func diffFileList(master, new []string) []string {
 	for _, f := range new {
 		found := false
 		for _, m := range master {
-			if m == f {
+			if stripFile(m) == stripFile(f) {
 				found = true
 			}
 		}
