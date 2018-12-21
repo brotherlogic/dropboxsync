@@ -97,6 +97,7 @@ func (s *Server) runAllUpdates(ctx context.Context) {
 
 func main() {
 	var quiet = flag.Bool("quiet", false, "Show all output")
+	var wipe = flag.Bool("wipe", false, "Clear configs")
 	flag.Parse()
 
 	//Turn off logging
@@ -110,6 +111,12 @@ func main() {
 	server.Register = server
 	server.RegisterServer("dropboxsync", false)
 	server.RegisterRepeatingTask(server.runAllUpdates, "run_update", time.Minute*5)
+
+	if *wipe {
+		server.config.SyncConfigs = []*pb.SyncConfig{}
+		//server.save(context.ackground())
+		return
+	}
 
 	fmt.Printf("%v", server.Serve())
 }
