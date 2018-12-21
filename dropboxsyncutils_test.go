@@ -56,7 +56,17 @@ func TestSuccessList(t *testing.T) {
 	}
 }
 
-func TestSuccessFail(t *testing.T) {
+func TestCopyFail(t *testing.T) {
+	s := InitTest()
+	s.dropbox = &dbTest{failCopy: true, paths: map[string][]string{"one": []string{"one", "two"}, "two": []string{"two"}}}
+
+	s.runUpdate(context.Background(), &pb.SyncConfig{Origin: "one", Destination: "two"})
+	if s.copies != 0 {
+		t.Errorf("Too much copying")
+	}
+}
+
+func TestListFail(t *testing.T) {
 	s := InitTest()
 	s.dropbox = &dbTest{failList: true, paths: map[string][]string{"one": []string{"one", "two"}, "two": []string{"two"}}}
 
