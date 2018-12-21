@@ -8,6 +8,7 @@ import (
 	"golang.org/x/net/context"
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
+	pbt "github.com/brotherlogic/tracer/proto"
 )
 
 func stripFile(f string) string {
@@ -36,8 +37,11 @@ func diffFileList(master, new []string) []string {
 
 func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 	t := time.Now()
+	s.LogTrace(ctx, "prelist", time.Now(), pbt.Milestone_MARKER)
 	source, err := s.dropbox.listFiles(config.Key, config.Origin)
+	s.LogTrace(ctx, "postlist-1", time.Now(), pbt.Milestone_MARKER)
 	dest, err2 := s.dropbox.listFiles(config.Key, config.Destination)
+	s.LogTrace(ctx, "postlist-2", time.Now(), pbt.Milestone_MARKER)
 	s.listTime = time.Now().Sub(t)
 
 	if err != nil || err2 != nil {
@@ -51,7 +55,9 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
 		t = time.Now()
 		err = s.dropbox.copyFile(config.Key, diff, config.Destination+"/"+stripFile(diff))
+		s.LogTrace(ctx, "precopy", time.Now(), pbt.Milestone_MARKER)
 		s.copyTime = time.Now().Sub(t)
+		s.LogTrace(ctx, "postcopy", time.Now(), pbt.Milestone_MARKER)
 		if err != nil {
 			s.Log(fmt.Sprintf("Error copying files: %v", err))
 		} else {
