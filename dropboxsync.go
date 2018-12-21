@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"time"
 
 	"github.com/brotherlogic/goserver"
 	"github.com/brotherlogic/keystore/client"
@@ -23,7 +24,14 @@ const (
 //Server main server type
 type Server struct {
 	*goserver.GoServer
-	config *pb.Config
+	config  *pb.Config
+	dropbox dropboxbridge
+	copies  int64
+}
+
+type dropboxbridge interface {
+	copyFile(key, origin, dest string) error
+	listFiles(key, path string) ([]string, error)
 }
 
 func (s *Server) save(ctx context.Context) {
@@ -47,6 +55,8 @@ func Init() *Server {
 	s := &Server{
 		&goserver.GoServer{},
 		&pb.Config{},
+		&dbProd{},
+		int64(0),
 	}
 	return s
 }
@@ -75,6 +85,13 @@ func (s *Server) Mote(ctx context.Context, master bool) error {
 func (s *Server) GetState() []*pbg.State {
 	return []*pbg.State{
 		&pbg.State{Key: "num_sync_configs", Value: int64(len(s.config.SyncConfigs))},
+		&pbg.State{Key: "copies", Value: s.copies},
+	}
+}
+
+func (s *Server) runAllUpdates(ctx context.Context) {
+	for _, syncConfig := range s.config.SyncConfigs {
+		s.runUpdate(ctx, syncConfig)
 	}
 }
 
@@ -92,6 +109,7 @@ func main() {
 	server.PrepServer()
 	server.Register = server
 	server.RegisterServer("dropboxsync", false)
+	server.RegisterRepeatingTask(server.runAllUpdates, "run_update", time.Minute*5)
 
 	fmt.Printf("%v", server.Serve())
 }
