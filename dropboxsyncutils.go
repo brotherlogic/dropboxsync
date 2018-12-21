@@ -48,7 +48,7 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 	diffs := diffFileList(dest, source)
 
 	for _, diff := range diffs {
-		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+diff))
+		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
 		s.copies++
 	}
 }
