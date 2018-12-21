@@ -28,6 +28,7 @@ type Server struct {
 	dropbox  dropboxbridge
 	copies   int64
 	listTime time.Duration
+	copyTime time.Duration
 }
 
 type dropboxbridge interface {
@@ -58,7 +59,8 @@ func Init() *Server {
 		&pb.Config{},
 		&dbProd{},
 		int64(0),
-		time.Second * 0,
+		time.Millisecond,
+		time.Millisecond,
 	}
 	return s
 }
@@ -89,6 +91,7 @@ func (s *Server) GetState() []*pbg.State {
 		&pbg.State{Key: "num_sync_configs", Value: int64(len(s.config.SyncConfigs))},
 		&pbg.State{Key: "copies", Value: s.copies},
 		&pbg.State{Key: "list_time", TimeDuration: s.listTime.Nanoseconds()},
+		&pbg.State{Key: "copy_time", TimeDuration: s.copyTime.Nanoseconds()},
 	}
 }
 

@@ -38,7 +38,7 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 	t := time.Now()
 	source, err := s.dropbox.listFiles(config.Key, config.Origin)
 	dest, err2 := s.dropbox.listFiles(config.Key, config.Destination)
-	s.listTime = time.Now().Sub(t) / 2
+	s.listTime = time.Now().Sub(t)
 
 	if err != nil || err2 != nil {
 		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
@@ -49,6 +49,13 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 
 	for _, diff := range diffs {
 		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
-		s.copies++
+		t = time.Now()
+		err = s.dropbox.copyFile(config.Key, diff, config.Destination+"/"+stripFile(diff))
+		s.copyTime = time.Now().Sub(t)
+		if err != nil {
+			s.Log(fmt.Sprintf("Error copying files: %v", err))
+		} else {
+			s.copies++
+		}
 	}
 }
