@@ -79,16 +79,8 @@ func (s *Server) GetState() []*pbg.State {
 }
 
 func main() {
-	var local = flag.Bool("local", false, "Run local part")
-	var key = flag.String("key", "", "The key")
 	var quiet = flag.Bool("quiet", false, "Show all output")
 	flag.Parse()
-
-	if *local {
-		copyFile(*key, "/at.txt", "/Krautrock/at.txt")
-
-		return
-	}
 
 	//Turn off logging
 	if *quiet {
