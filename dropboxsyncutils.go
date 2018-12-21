@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"golang.org/x/net/context"
 
@@ -34,8 +35,10 @@ func diffFileList(master, new []string) []string {
 }
 
 func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
+	t := time.Now()
 	source, err := s.dropbox.listFiles(config.Key, config.Origin)
 	dest, err2 := s.dropbox.listFiles(config.Key, config.Destination)
+	s.listTime = time.Now().Sub(t) / 2
 
 	if err != nil || err2 != nil {
 		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
