@@ -49,8 +49,8 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
 		return
 	}
-
 	diffs := diffFileList(dest, source)
+	s.LogTrace(ctx, fmt.Sprintf("diffed-%v", len(dest)), time.Now(), pbt.Milestone_MARKER)
 
 	for _, diff := range diffs {
 		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
