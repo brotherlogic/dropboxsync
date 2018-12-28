@@ -16,6 +16,50 @@ func stripFile(f string) string {
 	return elems[len(elems)-1]
 }
 
+func diffFileListClever(master, new []string) []string {
+	newOnes := []string{}
+
+	mmap := make(map[string]string)
+	for _, v := range master {
+		mmap[stripFile(v)] = v
+	}
+
+	for _, m := range new {
+		if _, ok := mmap[stripFile(m)]; !ok {
+			newOnes = append(newOnes, m)
+		}
+	}
+
+	return newOnes
+}
+
+func diffFileListPreStrip(master, new []string) []string {
+	newOnes := []string{}
+
+	mmap := make(map[string]string)
+	for _, v := range master {
+		mmap[v] = stripFile(v)
+	}
+	for _, v := range new {
+		mmap[v] = stripFile(v)
+	}
+
+	for _, f := range new {
+		found := false
+		for _, m := range master {
+			if mmap[m] == mmap[f] {
+				found = true
+			}
+		}
+
+		if !found {
+			newOnes = append(newOnes, f)
+		}
+	}
+
+	return newOnes
+}
+
 func diffFileList(master, new []string) []string {
 	newOnes := []string{}
 
@@ -49,7 +93,7 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
 		return
 	}
-	diffs := diffFileList(dest, source)
+	diffs := diffFileListClever(dest, source)
 	s.LogTrace(ctx, fmt.Sprintf("diffed-%v", len(dest)), time.Now(), pbt.Milestone_MARKER)
 
 	for _, diff := range diffs {
