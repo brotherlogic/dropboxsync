@@ -4,14 +4,11 @@ import (
 	"log"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/brotherlogic/goserver/utils"
 	"google.golang.org/grpc"
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
-	pbgs "github.com/brotherlogic/goserver/proto"
-	pbt "github.com/brotherlogic/tracer/proto"
 
 	//Needed to pull in gzip encoding init
 	_ "google.golang.org/grpc/encoding/gzip"
@@ -30,7 +27,7 @@ func main() {
 	}
 
 	client := pb.NewDropboxSyncServiceClient(conn)
-	ctx, cancel := utils.BuildContext("dropboxsync-cli", "dropboxsync", pbgs.ContextType_LONG)
+	ctx, cancel := utils.BuildContext("dropboxsync-cli", "dropboxsync")
 	defer cancel()
 
 	switch os.Args[1] {
@@ -40,6 +37,4 @@ func main() {
 			log.Fatalf("Error on GET: %v", err)
 		}
 	}
-
-	utils.SendTrace(ctx, "End of CLI", time.Now(), pbt.Milestone_END, "recordwants-cli")
 }
