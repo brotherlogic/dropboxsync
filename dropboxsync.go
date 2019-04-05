@@ -101,10 +101,12 @@ func (s *Server) GetState() []*pbg.State {
 	}
 }
 
-func (s *Server) runAllUpdates(ctx context.Context) {
+func (s *Server) runAllUpdates(ctx context.Context) error {
 	for _, syncConfig := range s.config.SyncConfigs {
 		s.runUpdate(ctx, syncConfig)
 	}
+
+	return nil
 }
 
 func main() {
