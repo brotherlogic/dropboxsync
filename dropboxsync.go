@@ -49,6 +49,8 @@ func (s *Server) load(ctx context.Context) error {
 	}
 
 	s.config = data.(*pb.Config)
+
+	s.Log(fmt.Sprintf("Loaded config %v", s.config))
 	return nil
 }
 
