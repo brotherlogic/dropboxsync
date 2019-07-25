@@ -14,6 +14,7 @@ import (
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
+	"github.com/brotherlogic/goserver/utils"
 )
 
 const (
@@ -95,11 +96,16 @@ func (s *Server) Mote(ctx context.Context, master bool) error {
 
 // GetState gets the state of the server
 func (s *Server) GetState() []*pbg.State {
+	copies := []string{}
+	for _, conf := range s.config.SyncConfigs {
+		copies = append(copies, conf.Destination)
+	}
 	return []*pbg.State{
 		&pbg.State{Key: "num_sync_configs", Value: int64(len(s.config.SyncConfigs))},
 		&pbg.State{Key: "copies", Value: s.copies},
 		&pbg.State{Key: "list_time", TimeDuration: s.listTime.Nanoseconds()},
 		&pbg.State{Key: "copy_time", TimeDuration: s.copyTime.Nanoseconds()},
+		&pbg.State{Key: "configs", Text: fmt.Sprintf("%v", copies)},
 	}
 }
 
@@ -114,6 +120,9 @@ func (s *Server) runAllUpdates(ctx context.Context) error {
 func main() {
 	var quiet = flag.Bool("quiet", false, "Show all output")
 	var wipe = flag.Bool("wipe", false, "Clear configs")
+	var token = flag.String("token", "", "Initial token")
+	var origin = flag.String("origin", "", "Origin")
+	var dest = flag.String("dest", "", "Destination")
 	flag.Parse()
 
 	//Turn off logging
@@ -122,15 +131,27 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 	server := Init()
-	server.GoServer.KSclient = *keystoreclient.GetClient(server.GetIP)
+	server.GoServer.KSclient = *keystoreclient.GetClient(server.DialMaster)
 	server.PrepServer()
 	server.Register = server
 	server.RegisterServer("dropboxsync", false)
 	server.RegisterRepeatingTask(server.runAllUpdates, "run_update", time.Minute*5)
 
 	if *wipe {
+		ctx, cancel := utils.BuildContext("dropboxysync", "dropboxsync")
+		defer cancel()
+
 		server.config.SyncConfigs = []*pb.SyncConfig{}
-		//server.save(context.ackground())
+		server.save(ctx)
+		return
+	}
+
+	if len(*token) > 0 {
+		ctx, cancel := utils.BuildContext("dropboxysync", "dropboxsync")
+		defer cancel()
+
+		server.config.SyncConfigs = append(server.config.SyncConfigs, &pb.SyncConfig{Key: *token, Origin: *origin, Destination: *dest})
+		server.save(ctx)
 		return
 	}
 
