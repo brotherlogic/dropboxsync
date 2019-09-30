@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	host, port, err := utils.Resolve("dropboxsync")
+	host, port, err := utils.Resolve("dropboxsync", "dropboxysync-cli")
 	if err != nil {
 		log.Fatalf("Unable to reach server: %v", err)
 	}
