@@ -134,7 +134,10 @@ func main() {
 	server.GoServer.KSclient = *keystoreclient.GetClient(server.DialMaster)
 	server.PrepServer()
 	server.Register = server
-	server.RegisterServerV2("dropboxsync", false, false)
+	err := server.RegisterServerV2("dropboxsync", false, false)
+	if err != nil {
+		return
+	}
 	server.RegisterRepeatingTask(server.runAllUpdates, "run_update", time.Minute*5)
 
 	if *wipe {
