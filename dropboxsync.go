@@ -8,13 +8,13 @@ import (
 	"time"
 
 	"github.com/brotherlogic/goserver"
+	"github.com/brotherlogic/goserver/utils"
 	"github.com/brotherlogic/keystore/client"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
-	"github.com/brotherlogic/goserver/utils"
 )
 
 const (
@@ -109,12 +109,12 @@ func (s *Server) GetState() []*pbg.State {
 	}
 }
 
-func (s *Server) runAllUpdates(ctx context.Context) error {
+func (s *Server) runAllUpdates(ctx context.Context) (time.Time, error) {
 	for _, syncConfig := range s.config.SyncConfigs {
 		s.runUpdate(ctx, syncConfig)
 	}
 
-	return nil
+	return time.Now().Add(time.Minute * 10), nil
 }
 
 func main() {
@@ -134,11 +134,12 @@ func main() {
 	server.GoServer.KSclient = *keystoreclient.GetClient(server.DialMaster)
 	server.PrepServer()
 	server.Register = server
-	err := server.RegisterServerV2("dropboxsync", false, false)
+	err := server.RegisterServerV2("dropboxsync", false, true)
 	if err != nil {
 		return
 	}
-	server.RegisterRepeatingTask(server.runAllUpdates, "run_update", time.Minute*5)
+
+	server.RegisterLockingTask(server.runAllUpdates, "run_update")
 
 	if *wipe {
 		ctx, cancel := utils.BuildContext("dropboxysync", "dropboxsync")
