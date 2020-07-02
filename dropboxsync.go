@@ -159,5 +159,12 @@ func main() {
 		return
 	}
 
+	ctx, cancel := utils.ManualContext("dropboxsync", "dropboxysync", time.Minute, true)
+	_, err := server.runAllUpdates(ctx)
+	if err != nil {
+		log.Fatalf("Cannot run update: %v", ctx)
+	}
+	cancel()
+
 	fmt.Printf("%v", server.Serve())
 }
