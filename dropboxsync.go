@@ -95,17 +95,7 @@ func (s *Server) Mote(ctx context.Context, master bool) error {
 
 // GetState gets the state of the server
 func (s *Server) GetState() []*pbg.State {
-	copies := []string{}
-	for _, conf := range s.config.SyncConfigs {
-		copies = append(copies, conf.Destination)
-	}
-	return []*pbg.State{
-		&pbg.State{Key: "num_sync_configs", Value: int64(len(s.config.SyncConfigs))},
-		&pbg.State{Key: "copies", Value: s.copies},
-		&pbg.State{Key: "list_time", TimeDuration: s.listTime.Nanoseconds()},
-		&pbg.State{Key: "copy_time", TimeDuration: s.copyTime.Nanoseconds()},
-		&pbg.State{Key: "configs", Text: fmt.Sprintf("%v", copies)},
-	}
+	return []*pbg.State{}
 }
 
 func (s *Server) runAllUpdates(ctx context.Context) (time.Time, error) {
