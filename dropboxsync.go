@@ -9,7 +9,6 @@ import (
 
 	"github.com/brotherlogic/goserver"
 	"github.com/brotherlogic/goserver/utils"
-	"github.com/brotherlogic/keystore/client"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -131,7 +130,6 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 	server := Init()
-	server.GoServer.KSclient = *keystoreclient.GetClient(server.DialMaster)
 	server.PrepServer()
 	server.Register = server
 	err := server.RegisterServerV2("dropboxsync", false, true)
@@ -158,6 +156,13 @@ func main() {
 		server.save(ctx)
 		return
 	}
+
+	ctx, cancel := utils.ManualContext("dropboxsync", "dropboxysync", time.Minute, true)
+	_, err = server.runAllUpdates(ctx)
+	if err != nil {
+		log.Fatalf("Cannot run update: %v", ctx)
+	}
+	cancel()
 
 	fmt.Printf("%v", server.Serve())
 }
