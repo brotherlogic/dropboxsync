@@ -127,8 +127,6 @@ func main() {
 		return
 	}
 
-	server.RegisterLockingTask(server.runAllUpdates, "run_update")
-
 	if *wipe {
 		ctx, cancel := utils.BuildContext("dropboxysync", "dropboxsync")
 		defer cancel()
