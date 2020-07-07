@@ -102,6 +102,8 @@ func (s *Server) GetState() []*pbg.State {
 
 func (s *Server) runAllUpdates(ctx context.Context) (time.Time, error) {
 	for _, syncConfig := range s.config.SyncConfigs {
+		time.Sleep(time.Second * 5)
+		s.Log(fmt.Sprintf("Running update for %v", syncConfig))
 		s.runUpdate(ctx, syncConfig)
 	}
 
