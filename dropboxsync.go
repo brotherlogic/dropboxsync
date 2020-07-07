@@ -101,10 +101,14 @@ func (s *Server) GetState() []*pbg.State {
 }
 
 func (s *Server) runAllUpdates(ctx context.Context) (time.Time, error) {
-	for _, syncConfig := range s.config.SyncConfigs {
-		time.Sleep(time.Second * 5)
-		s.Log(fmt.Sprintf("Running update for %v", syncConfig))
-		s.runUpdate(ctx, syncConfig)
+	err := s.load(ctx)
+	if err == nil {
+		s.Log(fmt.Sprintf("Running update: %v", len(s.config.SyncConfigs)))
+		for _, syncConfig := range s.config.SyncConfigs {
+			time.Sleep(time.Second * 5)
+			s.Log(fmt.Sprintf("Running update for %v", syncConfig))
+			s.runUpdate(ctx, syncConfig)
+		}
 	}
 
 	return time.Now().Add(time.Minute * 10), nil
