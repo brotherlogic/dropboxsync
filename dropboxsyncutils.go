@@ -8,6 +8,7 @@ import (
 	"golang.org/x/net/context"
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 )
 
 func stripFile(f string) string {
@@ -95,7 +96,12 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
 		err = s.dropbox.copyFile(config.Key, diff, config.Destination+"/"+stripFile(diff))
 		if err != nil {
-			s.Log(fmt.Sprintf("Error copying files (%v), %v -> %v: %v", config.Key, diff, config.Destination+"/"+stripFile(diff), err))
+			str1, ok := err.(files.CopyAPIError)
+			str := "bad conversion"
+			if ok {
+				str = fmt.Sprintf("%v", str1.EndpointError)
+			}
+			s.Log(fmt.Sprintf("Error copying files (%v), %v -> %v: %v, %v", config.Key, diff, config.Destination+"/"+stripFile(diff), err, str))
 		} else {
 			s.copies++
 		}
