@@ -94,7 +94,7 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
 		err = s.dropbox.copyFile(config.Key, diff, config.Destination+"/"+stripFile(diff))
 		if err != nil {
-			s.Log(fmt.Sprintf("Error copying files: %v", err))
+			s.Log(fmt.Sprintf("Error copying files (%v), %v -> %v: %v", config.Key, diff, config.Destination+"/"+stripFille(diff), err))
 		} else {
 			s.copies++
 		}
