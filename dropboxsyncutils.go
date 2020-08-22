@@ -89,10 +89,8 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
 		return
 	}
-	s.Log(fmt.Sprintf("HERE %v %v", dest, source))
 	diffs := diffFileListClever(dest, source)
 
-	s.Log(fmt.Sprintf("Copying %v files", len(diffs)))
 	for _, diff := range diffs {
 		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
 		err = s.dropbox.copyFile(config.Key, diff, config.Destination+"/"+stripFile(diff))

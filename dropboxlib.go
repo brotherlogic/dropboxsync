@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 )
@@ -42,7 +40,17 @@ func (d *dbProd) listFiles(key string, path string) ([]string, error) {
 			fs = append(fs, conv.PathLower)
 		}
 	}
-	d.log(fmt.Sprintf("COMP %v -> %v", len(resp.Entries), len(fs)))
+	if resp.HasMore {
+		resp, err := dbx.ListFolderContinue(&files.ListFolderContinueArg{Cursor: resp.Cursor})
+		if err != nil {
+			return []string{}, err
+		}
+		for _, entry := range resp.Entries {
+			if conv, ok := entry.(*files.FileMetadata); ok {
+				fs = append(fs, conv.PathLower)
+			}
+		}
+	}
 
 	return fs, nil
 }
