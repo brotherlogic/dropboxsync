@@ -64,6 +64,7 @@ func Init() *Server {
 		time.Millisecond,
 		time.Millisecond,
 	}
+	s.dropbox = &dbProd{log: s.Log}
 	return s
 }
 
