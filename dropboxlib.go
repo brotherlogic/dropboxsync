@@ -5,7 +5,9 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 )
 
-type dbProd struct{}
+type dbProd struct {
+	log func(string s)
+}
 
 func (d *dbProd) copyFile(key string, origin, dest string) error {
 	config := dropbox.Config{
@@ -38,6 +40,7 @@ func (d *dbProd) listFiles(key string, path string) ([]string, error) {
 			fs = append(fs, conv.PathLower)
 		}
 	}
+	d.log("%v -> %v", len(resp.Entries), len(fs))
 
 	return fs, nil
 }
