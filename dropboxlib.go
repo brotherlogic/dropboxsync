@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 )
 
 type dbProd struct {
-	log func(string s)
+	log func(s string)
 }
 
 func (d *dbProd) copyFile(key string, origin, dest string) error {
@@ -40,7 +42,7 @@ func (d *dbProd) listFiles(key string, path string) ([]string, error) {
 			fs = append(fs, conv.PathLower)
 		}
 	}
-	d.log("%v -> %v", len(resp.Entries), len(fs))
+	d.log(fmt.Sprintf("COMP %v -> %v", len(resp.Entries), len(fs)))
 
 	return fs, nil
 }
