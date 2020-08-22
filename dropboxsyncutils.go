@@ -101,7 +101,7 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 			if ok {
 				str = fmt.Sprintf("%+v", str1.EndpointError)
 			}
-			s.Log(fmt.Sprintf("Error copying files (%v), %v -> %v: %v, %v, %v", config.Key, diff, config.Destination+"/"+stripFile(diff), err, str, str1.EndpointError.Tagged))
+			s.Log(fmt.Sprintf("Error copying files (%v), %v -> %v: %v, %v, %v", config.Key, diff, config.Destination+"/"+stripFile(diff), err, str, str1.EndpointError.To))
 		} else {
 			s.copies++
 		}
