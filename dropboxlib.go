@@ -42,7 +42,7 @@ func (d *dbProd) listFiles(key string, path string) ([]string, error) {
 			fs = append(fs, conv.PathLower)
 		}
 	}
-	d.log(fmt.Sprintf("%v -> %v", len(resp.Entries), len(fs)))
+	d.log(fmt.Sprintf("COMP %v -> %v", len(resp.Entries), len(fs)))
 
 	return fs, nil
 }
