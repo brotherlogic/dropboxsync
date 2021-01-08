@@ -172,8 +172,9 @@ func main() {
 				log.Fatalf("Cannot run update: %v", ctx)
 			}
 			cancel()
+			time.Sleep(time.Hour * 2)
 		}
-		time.Sleep(time.Hour * 2)
+
 	}()
 
 	fmt.Printf("%v", server.Serve())
