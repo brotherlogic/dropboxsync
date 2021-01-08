@@ -9,11 +9,20 @@ import (
 
 	"github.com/brotherlogic/goserver"
 	"github.com/brotherlogic/goserver/utils"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
+)
+
+var (
+	lastRun = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "dropboxsync_run",
+		Help: "ImageAge",
+	}, []string{"err"})
 )
 
 const (
@@ -158,6 +167,7 @@ func main() {
 		for true {
 			ctx, cancel := utils.ManualContext("dropboxsync", "dropboxysync", time.Minute, true)
 			_, err = server.runAllUpdates(ctx)
+			lastRun.With(prometheus.Labels{"err": fmt.Sprintf("%v", err)}).Set(float64(time.Now().Unix()))
 			if err != nil {
 				log.Fatalf("Cannot run update: %v", ctx)
 			}
