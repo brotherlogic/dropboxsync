@@ -173,7 +173,7 @@ func main() {
 			}
 			cancel()
 		}
-		time.Sleep(time.Hour * 24)
+		time.Sleep(time.Hour * 2)
 	}()
 
 	fmt.Printf("%v", server.Serve())
