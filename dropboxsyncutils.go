@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/v6/dropbox/files"
 	"golang.org/x/net/context"
 
 	pb "github.com/brotherlogic/dropboxsync/proto"
