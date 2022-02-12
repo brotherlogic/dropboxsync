@@ -26,7 +26,7 @@ func (s *Server) diffFileListClever(master, new []string) []string {
 
 	for _, m := range new {
 		if _, ok := mmap[stripFile(m)]; !ok {
-			s.Log(fmt.Sprintf("Adding %v because %v", m, mmap))
+			s.Log(fmt.Sprintf("Adding %v", m))
 			newOnes = append(newOnes, m)
 		}
 	}
