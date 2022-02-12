@@ -169,7 +169,7 @@ func main() {
 			_, err = server.runAllUpdates(ctx)
 			lastRun.With(prometheus.Labels{"err": fmt.Sprintf("%v", err)}).Set(float64(time.Now().Unix()))
 			if err != nil {
-				log.Fatalf("Cannot run update: %v", ctx)
+				log.Fatalf("Cannot run the update: %v", ctx)
 			}
 			cancel()
 			time.Sleep(time.Hour * 2)
