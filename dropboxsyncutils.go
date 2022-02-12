@@ -13,7 +13,7 @@ import (
 
 func stripFile(f string) string {
 	elems := strings.Split(f, "/")
-	return strings.ToLower(elems[len(elems)-1])
+	return elems[len(elems)-1]
 }
 
 func (s *Server) diffFileListClever(master, new []string) []string {
@@ -85,6 +85,8 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 	source, err := s.dropbox.listFiles(config.Key, config.GetOrigin())
 	dest, err2 := s.dropbox.listFiles(config.Key, config.GetDestination())
 	s.listTime = time.Now().Sub(t)
+
+	s.CtxLog(ctx, fmt.Sprintf("Listed files: %v vs %v", len(source), len(dest)))
 
 	if err != nil || err2 != nil {
 		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
