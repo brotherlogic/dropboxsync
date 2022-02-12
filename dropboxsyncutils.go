@@ -81,8 +81,8 @@ func diffFileList(master, new []string) []string {
 
 func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 	t := time.Now()
-	source, err := s.dropbox.listFiles(config.Key, config.Origin)
-	dest, err2 := s.dropbox.listFiles(config.Key, config.Destination)
+	source, err := s.dropbox.listFiles(config.Key, config.GetOrigin())
+	dest, err2 := s.dropbox.listFiles(config.Key, config.GetDestination())
 	s.listTime = time.Now().Sub(t)
 
 	if err != nil || err2 != nil {
@@ -92,8 +92,9 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 	diffs := diffFileListClever(dest, source)
 
 	for _, diff := range diffs {
-		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.Destination+"/"+stripFile(diff)))
-		err = s.dropbox.copyFile(config.Key, diff, config.Destination+"/"+stripFile(diff))
+		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.GetDestination()+"/"+stripFile(diff)))
+		err = s.dropbox.copyFile(config.Key, diff, config.GetDestination()+"/"+stripFile(diff))
+		s.CtxLog(ctx, fmt.Sprintf("Copy error: %v", err))
 		if err != nil {
 			str1, ok := err.(files.CopyAPIError)
 			str := "bad conversion"
@@ -101,9 +102,9 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 				str = fmt.Sprintf("%+v", str1.EndpointError)
 			}
 			s.Log(fmt.Sprintf("Error copying files (%v), %v -> %v: %v, %v, %v",
-				config.Key,
+				config.GetKey(),
 				diff,
-				config.Destination+"/"+stripFile(diff),
+				config.GetDestination()+"/"+stripFile(diff),
 				err,
 				str,
 				str1))
