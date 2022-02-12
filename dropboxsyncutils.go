@@ -13,7 +13,7 @@ import (
 
 func stripFile(f string) string {
 	elems := strings.Split(f, "/")
-	return elems[len(elems)-1]
+	return strings.ToLower(elems[len(elems)-1])
 }
 
 func diffFileListClever(master, new []string) []string {
