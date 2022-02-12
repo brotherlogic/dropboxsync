@@ -16,7 +16,7 @@ func stripFile(f string) string {
 	return strings.ToLower(elems[len(elems)-1])
 }
 
-func diffFileListClever(master, new []string) []string {
+func (s *Server) diffFileListClever(master, new []string) []string {
 	newOnes := []string{}
 
 	mmap := make(map[string]string)
@@ -26,6 +26,7 @@ func diffFileListClever(master, new []string) []string {
 
 	for _, m := range new {
 		if _, ok := mmap[stripFile(m)]; !ok {
+			s.Log(fmt.Sprintf("Adding %v because %v", m, mmap))
 			newOnes = append(newOnes, m)
 		}
 	}
@@ -89,7 +90,7 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
 		return
 	}
-	diffs := diffFileListClever(dest, source)
+	diffs := s.diffFileListClever(dest, source)
 
 	for _, diff := range diffs {
 		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.GetDestination()+"/"+stripFile(diff)))
