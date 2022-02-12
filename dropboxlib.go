@@ -40,7 +40,7 @@ func (d *dbProd) listFiles(key string, path string) ([]string, error) {
 			fs = append(fs, conv.PathLower)
 		}
 	}
-	if resp.HasMore {
+	for resp.HasMore {
 		resp, err := dbx.ListFolderContinue(&files.ListFolderContinueArg{Cursor: resp.Cursor})
 		if err != nil {
 			return []string{}, err
