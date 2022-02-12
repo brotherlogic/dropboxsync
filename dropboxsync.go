@@ -165,7 +165,7 @@ func main() {
 
 	go func() {
 		for true {
-			ctx, cancel := utils.ManualContext("dropboxsync", "dropboxysync", time.Minute, true)
+			ctx, cancel := utils.ManualContext("dropboxsync", time.Minute)
 			_, err = server.runAllUpdates(ctx)
 			lastRun.With(prometheus.Labels{"err": fmt.Sprintf("%v", err)}).Set(float64(time.Now().Unix()))
 			if err != nil {
