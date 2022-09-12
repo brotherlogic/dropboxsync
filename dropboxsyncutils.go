@@ -26,7 +26,6 @@ func (s *Server) diffFileListClever(master, new []string) []string {
 
 	for _, m := range new {
 		if _, ok := mmap[stripFile(m)]; !ok {
-			s.Log(fmt.Sprintf("Adding %v", m))
 			newOnes = append(newOnes, m)
 		}
 	}
@@ -89,13 +88,13 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 	s.CtxLog(ctx, fmt.Sprintf("Listed files: %v vs %v", len(source), len(dest)))
 
 	if err != nil || err2 != nil {
-		s.Log(fmt.Sprintf("Error listing files %v and %v", err, err2))
+		s.CtxLog(ctx, fmt.Sprintf("Error listing files %v and %v", err, err2))
 		return
 	}
 	diffs := s.diffFileListClever(dest, source)
 
 	for _, diff := range diffs {
-		s.Log(fmt.Sprintf("Copying %v to %v", diff, config.GetDestination()+"/"+stripFile(diff)))
+		s.CtxLog(ctx, fmt.Sprintf("Copying %v to %v", diff, config.GetDestination()+"/"+stripFile(diff)))
 		err = s.dropbox.copyFile(config.Key, diff, config.GetDestination()+"/"+stripFile(diff))
 		s.CtxLog(ctx, fmt.Sprintf("Copy error: %v", err))
 		if err != nil {
@@ -104,7 +103,7 @@ func (s *Server) runUpdate(ctx context.Context, config *pb.SyncConfig) {
 			if ok {
 				str = fmt.Sprintf("%+v", str1.EndpointError)
 			}
-			s.Log(fmt.Sprintf("Error copying files (%v), %v -> %v: %v, %v, %v",
+			s.CtxLog(ctx, fmt.Sprintf("Error copying files (%v), %v -> %v: %v, %v, %v",
 				config.GetKey(),
 				diff,
 				config.GetDestination()+"/"+stripFile(diff),

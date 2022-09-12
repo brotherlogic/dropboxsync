@@ -59,7 +59,7 @@ func (s *Server) load(ctx context.Context) error {
 
 	s.config = data.(*pb.Config)
 
-	s.Log(fmt.Sprintf("Loaded config %v", s.config))
+	s.CtxLog(ctx, fmt.Sprintf("Loaded config %v", s.config))
 	return nil
 }
 
@@ -113,10 +113,10 @@ func (s *Server) GetState() []*pbg.State {
 func (s *Server) runAllUpdates(ctx context.Context) (time.Time, error) {
 	err := s.load(ctx)
 	if err == nil {
-		s.Log(fmt.Sprintf("Running update: %v", len(s.config.SyncConfigs)))
+		s.CtxLog(ctx, fmt.Sprintf("Running update: %v", len(s.config.SyncConfigs)))
 		for _, syncConfig := range s.config.SyncConfigs {
 			time.Sleep(time.Second * 5)
-			s.Log(fmt.Sprintf("Running update for %v", syncConfig))
+			s.CtxLog(ctx, fmt.Sprintf("Running update for %v", syncConfig))
 			s.runUpdate(ctx, syncConfig)
 		}
 	}
