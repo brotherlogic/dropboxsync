@@ -73,7 +73,7 @@ func Init() *Server {
 		time.Millisecond,
 		time.Millisecond,
 	}
-	s.dropbox = &dbProd{log: s.Log}
+	s.dropbox = &dbProd{log: s.CtxLog}
 	return s
 }
 

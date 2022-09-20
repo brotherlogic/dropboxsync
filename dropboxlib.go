@@ -3,10 +3,11 @@ package main
 import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/v6/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/v6/dropbox/files"
+	"golang.org/x/net/context"
 )
 
 type dbProd struct {
-	log func(s string)
+	log func(ctx context.Context, s string)
 }
 
 func (d *dbProd) copyFile(key string, origin, dest string) error {
