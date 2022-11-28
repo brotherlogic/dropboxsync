@@ -484,8 +484,9 @@ github.com/brotherlogic/buildserver v0.0.0-20221031211912-592cc3ec179a/go.mod h1
 github.com/brotherlogic/buildserver v0.0.0-20221106163924-62d984336757/go.mod h1:VhiBsR3soFnprHkHo9fJA0k+ayIhEieOzqyZGoCG9rQ=
 github.com/brotherlogic/buildserver v0.0.0-20221128045125-13176b7f2997/go.mod h1:0F4LgUB3G1um1uSfXx+j4wUmqGPKBPdDC+ArkBpKO4A=
 github.com/brotherlogic/buildserver v0.0.0-20221128050628-c25db21f7cbb/go.mod h1:CxtUkk683M9NI5PN8bUNJpuyKqjHsEoknIjsEkrD0kI=
-github.com/brotherlogic/buildserver v0.0.0-20221128061350-5b1a642d8b53 h1:PZF+OSmpwX4RyVqSnFnxPa8zXt7gAWtmeZRg551QuNo=
 github.com/brotherlogic/buildserver v0.0.0-20221128061350-5b1a642d8b53/go.mod h1:Otlsd32HDQs3iXwv/OKljUqzoMOCwfFQGUehcPCuE8w=
+github.com/brotherlogic/buildserver v0.0.0-20221128075601-67a53e8a79c2 h1:M93WXl8w+aYC+cW3LuqMOyyosu4v/SD0LMJGIV5POKs=
+github.com/brotherlogic/buildserver v0.0.0-20221128075601-67a53e8a79c2/go.mod h1:lKFss/HEedigffY1L5NrniVMCqBAX49UdWXyjIv378E=
 github.com/brotherlogic/cardserver v0.0.0-20190719223243-651f4429cf27/go.mod h1:kP95c+Z9HoDZogqHo6tnAUdvW5YnTSV+MQOPxlLPszk=
 github.com/brotherlogic/cdprocessor v0.0.0-20210516180209-a867bfb00442/go.mod h1:H5OOZDfMzL4zrDhWbxAA/N2vWTTgIf7d7JFAs5GLwew=
 github.com/brotherlogic/cdprocessor v0.0.0-20210708203323-9cf5868e44c4/go.mod h1:XXKe3j0cAcpkMuEbjT3KXQg+achF/yz+hqpgNqLgCmo=
