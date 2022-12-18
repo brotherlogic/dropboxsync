@@ -3,7 +3,7 @@ module github.com/brotherlogic/dropboxsync
 go 1.13
 
 require (
-	github.com/brotherlogic/dstore v0.0.0-20221218012756-2b2a9f061cfd // indirect
+	github.com/brotherlogic/datastore v0.0.0-20221218012842-a82da3a46c4d // indirect
 	github.com/brotherlogic/goserver v0.0.0-20221217002224-0ba5c0213be1
 	github.com/brotherlogic/keystore v0.0.0-20221217221704-68000096bdab
 	github.com/dropbox/dropbox-sdk-go-unofficial/v6 v6.0.5
