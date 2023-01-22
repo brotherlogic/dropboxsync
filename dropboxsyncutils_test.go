@@ -52,7 +52,8 @@ func TestDiffFileListPreStrip(t *testing.T) {
 }
 
 func TestDiffFileListClever(t *testing.T) {
-	files := diffFileListClever([]string{"file1", "file2", "file3", "somefolder/file4"},
+	s := InitTest()
+	files := s.diffFileListClever([]string{"file1", "file2", "file3", "somefolder/file4"},
 		[]string{"file1", "file4", "file5"})
 
 	if len(files) != 1 && files[0] != "file5" {
@@ -116,6 +117,7 @@ func benchmarkDiffPreStrip(strlen int, b *testing.B) {
 
 func benchmarkDiffClever(strlen int, b *testing.B) {
 	// Create two 1000 piece arrays
+	s := InitTest()
 	files := []string{}
 
 	for i := 0; i < strlen; i++ {
@@ -137,7 +139,7 @@ func benchmarkDiffClever(strlen int, b *testing.B) {
 	}
 
 	for n := 0; n < b.N; n++ {
-		diffFileListClever(shuf2, shuf2)
+		s.diffFileListClever(shuf2, shuf2)
 	}
 }
 
