@@ -93,7 +93,7 @@ func benchmarkDiffPreStrip(strlen int, b *testing.B) {
 	files := []string{}
 
 	for i := 0; i < strlen; i++ {
-		str := fmt.Sprintf("stringington-%v", i)
+		str := fmt.Sprintf("Stringington-%v", i)
 		files = append(files, str)
 	}
 
